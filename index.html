@@ -266,11 +266,6 @@
         <input id="file" type="file" accept="image/*,application/pdf" class="visually-hidden" />
       </div>
 
-      <div class="subhead">
-        <span>New joiners only</span>
-        <small>Recently arrived in Kuwait? Add your passport entry stamp below. Everyone else, skip to Review.</small>
-      </div>
-
       <div class="field">
         <label>Passport page with Kuwait entry stamp</label>
         <div class="drop" id="dropEntry" role="button" tabindex="0">
@@ -279,6 +274,11 @@
           <span>The passport page showing the immigration entry stamp</span>
         </div>
         <input id="fileEntry" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+      </div>
+
+      <div class="subhead">
+        <span>Recently joined?</span>
+        <small>Only if you arrived in Kuwait recently: add your entry-stamp date and we'll work out your joining date. Everyone else can skip these two.</small>
       </div>
       <div class="row2">
         <div class="field">
@@ -519,10 +519,10 @@ function renderReview(){
     box.insertAdjacentHTML("beforeend",'<div class="r"><span>'+label+'</span><b class="'+(v?"":"empty")+'">'+(v?esc(disp):"Not provided")+'</b></div>');
   });
   box.insertAdjacentHTML("beforeend",'<div class="r"><span>Civil ID copy</span><b class="'+(fileData?"":"empty")+'">'+(fileData?"Attached":"Not provided")+'</b></div>');
-  if(val("entryDate")||entryData){
-    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Entry date</span><b class="'+(val("entryDate")?"":"empty")+'">'+(val("entryDate")?isoToDMY(val("entryDate")):"Not provided")+'</b></div>');
+  box.insertAdjacentHTML("beforeend",'<div class="r"><span>Passport entry page</span><b class="'+(entryData?"":"empty")+'">'+(entryData?"Attached":"Not provided")+'</b></div>');
+  if(val("entryDate")){
+    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Entry date</span><b>'+isoToDMY(val("entryDate"))+'</b></div>');
     box.insertAdjacentHTML("beforeend",'<div class="r"><span>Joining date (auto)</span><b class="'+(joiningISO?"":"empty")+'">'+(joiningISO?isoToDMY(joiningISO):"—")+'</b></div>');
-    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Passport entry page</span><b class="'+(entryData?"":"empty")+'">'+(entryData?"Attached":"Not provided")+'</b></div>');
   }
 }
 
