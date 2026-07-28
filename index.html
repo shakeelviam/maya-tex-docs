@@ -117,6 +117,13 @@
   .drop.has .fx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .drop.has .clear{background:none;border:0;color:var(--ink-soft);font-size:19px;cursor:pointer;padding:4px 8px;font-family:inherit;}
 
+  .subhead{margin:24px 0 14px;padding-top:18px;border-top:1px solid var(--line-2);}
+  .subhead span{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2);}
+  .subhead small{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;}
+  .readonly{font-size:16px;color:var(--ink);background:var(--surface-2);border:1.5px dashed var(--line);
+            border-radius:var(--radius-sm);padding:14px 15px;min-height:50px;display:flex;align-items:center;}
+  .readonly.set{border-style:solid;border-color:var(--ok);background:var(--ok-soft);font-weight:600;}
+
   .review{border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:20px;}
   .review .r{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;border-bottom:1px solid var(--line-2);font-size:13.5px;}
   .review .r:last-child{border-bottom:0;}
@@ -259,6 +266,31 @@
         <input id="file" type="file" accept="image/*,application/pdf" class="visually-hidden" />
       </div>
 
+      <div class="subhead">
+        <span>New joiners only</span>
+        <small>Recently arrived in Kuwait? Add your passport entry stamp below. Everyone else, skip to Review.</small>
+      </div>
+
+      <div class="field">
+        <label>Passport page with Kuwait entry stamp</label>
+        <div class="drop" id="dropEntry" role="button" tabindex="0">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+          <b>Add a photo or PDF</b>
+          <span>The passport page showing the immigration entry stamp</span>
+        </div>
+        <input id="fileEntry" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Entry date (immigration stamp)</label>
+          <input id="entryDate" type="date" />
+        </div>
+        <div class="field">
+          <label>Joining date <span style="color:var(--brass-2);font-weight:700">· auto</span></label>
+          <div class="readonly" id="joiningBox">—</div>
+        </div>
+      </div>
+
       <div class="actions">
         <button class="btn ghost" type="button" id="back3">Back</button>
         <button class="btn primary" type="button" id="toReview">Review</button>
@@ -309,7 +341,7 @@ const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
 /* ---------------- steps ---------------- */
-let step = 1, selected = null, fileData = null;
+let step = 1, selected = null, fileData = null, entryData = null, joiningISO = "";
 function go(n){
   step = n;
   ["step1","step2","step3","step4"].forEach((id,i)=>$("#"+id).classList.toggle("active", i+1===n && n<=4));
@@ -422,6 +454,36 @@ $("#file").onchange=async e=>{
 };
 function clearFile(){ fileData=null; $("#file").value=""; const d=$("#drop"); d.className="drop";
   d.innerHTML='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add a photo or PDF</b><span>Front of the Civil ID · clear and readable</span>'; }
+
+/* passport entry-stamp page (same folder, second file) */
+$("#dropEntry").onclick=()=>$("#fileEntry").click();
+$("#dropEntry").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#fileEntry").click();} };
+$("#fileEntry").onchange=async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  if(f.size>10*1024*1024){ alert("That file is too large. Please use one under 10 MB."); e.target.value=""; return; }
+  const drop=$("#dropEntry");
+  try{
+    let dataUrl, mime=f.type, name=f.name;
+    if(f.type.startsWith("image/")){ dataUrl=await compress(f); mime="image/jpeg"; name=(f.name.replace(/\.\w+$/,"")||"passport-entry")+".jpg"; }
+    else{ dataUrl=await readData(f); }
+    entryData={ name, mimeType:mime, data:dataUrl.split(",")[1] };
+    const thumb = mime.startsWith("image/") ? '<img class="thumb" src="'+dataUrl+'" alt="">' : '<div class="thumb" style="display:grid;place-items:center;font-weight:700;color:var(--ink-soft)">PDF</div>';
+    drop.className="drop has";
+    drop.innerHTML=thumb+'<div class="fx"><b>'+esc(name)+'</b><span>'+Math.max(1,Math.round((entryData.data.length*3/4)/1024))+' KB · Attached</span></div><button type="button" class="clear" aria-label="Remove">×</button>';
+    drop.querySelector(".clear").onclick=ev=>{ ev.stopPropagation(); clearEntry(); };
+  }catch(err){ alert("Couldn't read that file. Please try another."); }
+};
+function clearEntry(){ entryData=null; $("#fileEntry").value=""; const d=$("#dropEntry"); d.className="drop";
+  d.innerHTML='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add a photo or PDF</b><span>The passport page showing the immigration entry stamp</span>'; }
+
+/* joining date = entry date + 21 days (3 weeks) */
+function addDays(iso,n){ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return ""; d.setDate(d.getDate()+n);
+  const p=x=>String(x).padStart(2,"0"); return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()); }
+function updateJoining(){ const e=$("#entryDate").value; joiningISO=e?addDays(e,21):""; const box=$("#joiningBox");
+  if(joiningISO){ box.textContent=isoToDMY(joiningISO); box.classList.add("set"); }
+  else{ box.textContent="—"; box.classList.remove("set"); } }
+$("#entryDate").addEventListener("change",updateJoining);
+
 function readData(f){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }
 function compress(f){ return new Promise((res,rej)=>{ const r=new FileReader();
   r.onload=()=>{ const img=new Image(); img.onload=()=>{ const max=1600; let w=img.width,h=img.height;
@@ -457,6 +519,11 @@ function renderReview(){
     box.insertAdjacentHTML("beforeend",'<div class="r"><span>'+label+'</span><b class="'+(v?"":"empty")+'">'+(v?esc(disp):"Not provided")+'</b></div>');
   });
   box.insertAdjacentHTML("beforeend",'<div class="r"><span>Civil ID copy</span><b class="'+(fileData?"":"empty")+'">'+(fileData?"Attached":"Not provided")+'</b></div>');
+  if(val("entryDate")||entryData){
+    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Entry date</span><b class="'+(val("entryDate")?"":"empty")+'">'+(val("entryDate")?isoToDMY(val("entryDate")):"Not provided")+'</b></div>');
+    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Joining date (auto)</span><b class="'+(joiningISO?"":"empty")+'">'+(joiningISO?isoToDMY(joiningISO):"—")+'</b></div>');
+    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Passport entry page</span><b class="'+(entryData?"":"empty")+'">'+(entryData?"Attached":"Not provided")+'</b></div>');
+  }
 }
 
 /* ---------------- submit ---------------- */
@@ -466,7 +533,8 @@ $("#submit").onclick=async()=>{
   const payload={ token:TOKEN, row:selected.row, expectedName:selected.nameEn, expectedDesignation:selected.designation, website:val("website"),
     cid:val("cid"), cidExpiry:val("cidExpiry"), passportNo:val("passportNo"),
     passportIssue:val("passportIssue"), passportExpiry:val("passportExpiry"),
-    healthIssue:val("healthIssue"), healthExpiry:val("healthExpiry"), file:fileData };
+    healthIssue:val("healthIssue"), healthExpiry:val("healthExpiry"), file:fileData,
+    entryDate:val("entryDate"), joiningDate:joiningISO, entryFile:entryData };
   try{
     const res=await fetch(API,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
     const data=await res.json();
@@ -485,8 +553,8 @@ function showSaved(fields){
     : '';
 }
 $("#again").onclick=()=>{
-  selected=null; clearFile();
-  ["q","cid","passportNo","cidExpiry","passportIssue","passportExpiry","healthIssue","healthExpiry","website"].forEach(id=>$("#"+id).value="");
+  selected=null; clearFile(); clearEntry(); joiningISO=""; updateJoining();
+  ["q","cid","passportNo","cidExpiry","passportIssue","passportExpiry","healthIssue","healthExpiry","entryDate","website"].forEach(id=>$("#"+id).value="");
   $("#results").innerHTML=""; refreshChips(); go(1);
 };
 
