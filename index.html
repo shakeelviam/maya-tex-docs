@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Deep hospitality green + brass on cool paper */
     --ink:#123128; --ink-2:#1b4a3c; --ink-soft:#3a5b4f;
     --paper:#f3f6f2; --surface:#ffffff; --surface-2:#f7faf6;
     --line:#e0e7dd; --line-2:#eef2ea;
@@ -19,7 +18,8 @@
     --ok:#2f7d5b; --ok-soft:#e4f1ea;
     --warn:#a9701c; --warn-soft:#f7ecd7;
     --bad:#bd4630; --bad-soft:#f6e2dd;
-    --radius:16px; --radius-sm:11px; --shadow:0 1px 2px rgba(18,49,40,.05),0 12px 34px -18px rgba(18,49,40,.28);
+    --radius:16px; --radius-sm:11px;
+    --shadow:0 1px 2px rgba(18,49,40,.05),0 12px 34px -18px rgba(18,49,40,.28);
     --f-body:'Plus Jakarta Sans',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -29,9 +29,10 @@
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 
   header{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:11px;
-         padding:18px 2px 14px;position:sticky;top:0;background:linear-gradient(var(--paper) 72%,rgba(243,246,242,0));z-index:20;}
-  .mark{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;place-items:center;flex:none;
-        box-shadow:0 6px 16px -8px rgba(18,49,40,.6);}
+         padding:18px 2px 14px;position:sticky;top:0;
+         background:linear-gradient(var(--paper) 72%,rgba(243,246,242,0));z-index:20;}
+  .mark{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;
+        place-items:center;flex:none;box-shadow:0 6px 16px -8px rgba(18,49,40,.6);}
   .mark span{width:13px;height:13px;background:var(--brass);transform:rotate(45deg);border-radius:2px;}
   .brand b{font-weight:800;letter-spacing:.16em;font-size:15px;color:var(--ink);display:block;line-height:1;}
   .brand small{color:var(--muted);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;}
@@ -58,7 +59,8 @@
   .search{position:relative;margin-bottom:0;}
   .search svg{position:absolute;top:50%;transform:translateY(-50%);left:15px;color:var(--faint);pointer-events:none;}
   input,select{width:100%;font-family:inherit;font-size:16px;color:var(--text);background:var(--surface-2);
-        border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:14px 15px;transition:border-color .15s,background .15s;}
+        border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:14px 15px;
+        transition:border-color .15s,background .15s;}
   #q{padding-left:44px;}
   input::placeholder{color:var(--faint);}
   input:focus,select:focus{outline:none;border-color:var(--ink-2);background:var(--surface);}
@@ -70,15 +72,17 @@
 
   .results{margin-top:12px;border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden;}
   .results:empty{display:none;}
-  .res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:0;
-       border-bottom:1px solid var(--line-2);padding:12px 14px;cursor:pointer;font-family:inherit;}
+  .res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);
+       border:0;border-bottom:1px solid var(--line-2);padding:12px 14px;cursor:pointer;font-family:inherit;}
   .res:last-child{border-bottom:0;}
   .res:hover,.res:focus-visible{background:var(--surface-2);outline:none;}
   .res .av{width:34px;height:34px;border-radius:8px;background:var(--brass-soft);color:var(--brass-2);
            display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;}
   .res .nm{min-width:0;}
-  .res .nm b{display:block;font-weight:600;font-size:14.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .res .nm span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .res .nm b{display:block;font-weight:600;font-size:14.5px;color:var(--ink);
+             white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .res .nm span{display:block;font-size:12.5px;color:var(--muted);
+                white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
   .badge{display:flex;align-items:center;gap:14px;background:var(--ink);border-radius:var(--radius);
          padding:18px;color:#eaf1ec;margin-bottom:18px;position:relative;overflow:hidden;}
@@ -88,6 +92,21 @@
              display:grid;place-items:center;font-weight:700;font-size:19px;color:#fff;flex:none;}
   .badge b{display:block;font-size:17px;font-weight:700;color:#fff;}
   .badge .meta{font-size:12.5px;color:#a9bdb2;margin-top:5px;letter-spacing:.01em;}
+
+  /* Hire-type toggle */
+  .toggle-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+  .toggle-group input[type="radio"]{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+  .toggle-group label{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
+    cursor:pointer;border:1.5px solid var(--line);border-radius:var(--radius-sm);
+    padding:14px 10px;background:var(--surface-2);transition:border-color .15s,background .15s;}
+  .toggle-group label:hover{border-color:var(--brass);background:var(--brass-soft);}
+  .toggle-group input[type="radio"]:checked + label{
+    border-color:var(--ink-2);background:var(--ok-soft);color:var(--ink);}
+  .toggle-group input[type="radio"]:focus-visible + label{
+    outline:2px solid var(--brass);outline-offset:2px;}
+  .toggle-group .tg-icon{font-size:22px;line-height:1;}
+  .toggle-group .tg-title{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .toggle-group .tg-sub{font-size:11.5px;color:var(--muted);}
 
   .field{margin-bottom:16px;}
   .field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:7px;}
@@ -101,9 +120,10 @@
   .chip.warn{background:var(--warn-soft);color:var(--warn);}
   .chip.bad{background:var(--bad-soft);color:var(--bad);}
   .err{font-size:12px;color:var(--bad);margin-top:6px;display:none;}
-  .field.invalid input{border-color:var(--bad);}
+  .field.invalid input,.field.invalid select{border-color:var(--bad);}
   .field.invalid .err{display:block;}
 
+  /* file upload zones */
   .drop{border:1.5px dashed var(--line);border-radius:var(--radius-sm);background:var(--surface-2);
         padding:18px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;}
   .drop:hover{border-color:var(--brass);background:var(--brass-soft);}
@@ -112,12 +132,13 @@
   .drop span{font-size:12px;color:var(--muted);}
   .drop.has{border-style:solid;border-color:var(--ok);background:var(--ok-soft);text-align:left;
             display:flex;align-items:center;gap:12px;}
-  .drop.has .thumb{width:46px;height:46px;border-radius:8px;object-fit:cover;flex:none;background:#fff;border:1px solid var(--line);}
+  .drop.has .thumb{width:46px;height:46px;border-radius:8px;object-fit:cover;flex:none;
+                   background:#fff;border:1px solid var(--line);}
   .drop.has .fx{min-width:0;flex:1;}
   .drop.has .fx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .drop.has .clear{background:none;border:0;color:var(--ink-soft);font-size:19px;cursor:pointer;padding:4px 8px;font-family:inherit;}
+  .drop.has .clear{background:none;border:0;color:var(--ink-soft);font-size:19px;
+                   cursor:pointer;padding:4px 8px;font-family:inherit;}
 
-  /* ADDED: Grid for file uploads (front + back side by side) */
   .file-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:480px){.file-grid{grid-template-columns:1fr;}}
 
@@ -128,21 +149,29 @@
             border-radius:var(--radius-sm);padding:14px 15px;min-height:50px;display:flex;align-items:center;}
   .readonly.set{border-style:solid;border-color:var(--ok);background:var(--ok-soft);font-weight:600;}
 
+  /* section that shows/hides based on hire type */
+  .overseas-section{transition:opacity .2s;}
+  .overseas-section.hidden{display:none;}
+
   .review{border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:20px;}
-  .review .r{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;border-bottom:1px solid var(--line-2);font-size:13.5px;}
+  .review .r{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;
+             border-bottom:1px solid var(--line-2);font-size:13.5px;}
   .review .r:last-child{border-bottom:0;}
-  .review .r span{color:var(--muted);}.review .r b{color:var(--ink);font-weight:600;text-align:right;}
+  .review .r span{color:var(--muted);}
+  .review .r b{color:var(--ink);font-weight:600;text-align:right;}
   .review .r b.empty{color:var(--faint);font-weight:400;font-style:italic;}
 
   .actions{display:flex;gap:10px;margin-top:22px;}
   button.btn{flex:1;font-family:var(--f-body);font-size:15px;font-weight:700;border-radius:var(--radius-sm);
-             padding:15px;cursor:pointer;border:1.5px solid transparent;transition:transform .06s,filter .15s,background .15s;letter-spacing:.01em;}
+             padding:15px;cursor:pointer;border:1.5px solid transparent;
+             transition:transform .06s,filter .15s,background .15s;letter-spacing:.01em;}
   button.btn:active{transform:translateY(1px);}
   button.btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
   .btn.primary{background:var(--ink);color:#fff;}
   .btn.primary:hover{background:var(--ink-2);}
   .btn.primary[disabled]{opacity:.55;cursor:not-allowed;}
-  .btn.ghost{background:var(--surface);color:var(--ink-2);border-color:var(--line);flex:0 0 auto;padding-left:22px;padding-right:22px;}
+  .btn.ghost{background:var(--surface);color:var(--ink-2);border-color:var(--line);
+             flex:0 0 auto;padding-left:22px;padding-right:22px;}
   .btn.ghost:hover{border-color:var(--ink-2);}
 
   .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;
@@ -182,17 +211,17 @@
       <h1 id="s1h">Find your name</h1>
       <p class="lede">Start typing your name, then tap it in the list.</p>
 
-      <div id="loadBanner" class="banner warn">Loading the staff list…</div>
+      <div id="loadBanner" class="banner warn show">Loading the staff list…</div>
 
       <div class="search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Type your name…" aria-label="Search your name" aria-describedby="qnote" disabled />
+        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Type your name…"
+               aria-label="Search your name" aria-describedby="qnote" disabled />
       </div>
       <p class="note" id="qnote">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
         <span>Search your name exactly as it appears on your Civil ID.</span>
       </p>
-
       <div class="results" id="results" role="listbox"></div>
     </section>
 
@@ -224,6 +253,54 @@
 
       <div class="banner bad" id="docErr"></div>
 
+      <!-- ── HIRE TYPE TOGGLE ── -->
+      <div class="subhead" style="margin-top:0;padding-top:0;border-top:none;">
+        <span>How did you join?</span>
+        <small>This tells us which documents to ask for.</small>
+      </div>
+      <div class="toggle-group" role="group" aria-label="Hire type">
+        <input type="radio" name="hireType" id="hireOverseas" value="overseas" checked />
+        <label for="hireOverseas">
+          <span class="tg-icon">✈️</span>
+          <span class="tg-title">Hired from overseas</span>
+          <span class="tg-sub">You came to Kuwait for this job</span>
+        </label>
+        <input type="radio" name="hireType" id="hireLocal" value="local" />
+        <label for="hireLocal">
+          <span class="tg-icon">🏠</span>
+          <span class="tg-title">Local hire</span>
+          <span class="tg-sub">You were already in Kuwait</span>
+        </label>
+      </div>
+
+      <!-- ── CONTACT DETAILS ── -->
+      <div class="subhead">
+        <span>Contact details</span>
+        <small>Optional but helpful for HR to reach you.</small>
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="e.g. yourname@example.com" />
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Mobile number</label>
+          <input id="mobile" type="tel" inputmode="numeric" autocomplete="tel" placeholder="e.g. 96512345678" />
+        </div>
+        <div class="field">
+          <label>WhatsApp number</label>
+          <input id="whatsapp" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Same or different?" />
+        </div>
+      </div>
+      <div class="note" style="margin-bottom:16px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span>Include country code — e.g. <strong>965</strong> for Kuwait, <strong>92</strong> for Pakistan. Leave WhatsApp blank if it's the same as your mobile.</span>
+      </div>
+
+      <!-- ── CIVIL ID ── -->
+      <div class="subhead">
+        <span>Civil ID</span>
+      </div>
       <div class="field" id="f_cid">
         <label>Civil ID number <span class="req">*</span></label>
         <input id="cid" type="text" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="12 digits" />
@@ -234,6 +311,30 @@
         <div class="with-chip"><input id="cidExpiry" type="date" /><span class="chip" data-chip="cidExpiry" hidden></span></div>
       </div>
 
+      <!-- Civil ID front + back -->
+      <div class="file-grid">
+        <div class="field">
+          <label>Civil ID <strong>Front</strong></label>
+          <div class="drop" id="drop" role="button" tabindex="0">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+            <b>Add photo or PDF</b><span>Front of Civil ID</span>
+          </div>
+          <input id="file" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+        </div>
+        <div class="field">
+          <label>Civil ID <strong>Back</strong></label>
+          <div class="drop" id="dropBack" role="button" tabindex="0">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+            <b>Add photo or PDF</b><span>Back of Civil ID</span>
+          </div>
+          <input id="fileBack" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+        </div>
+      </div>
+
+      <!-- ── PASSPORT ── -->
+      <div class="subhead">
+        <span>Passport</span>
+      </div>
       <div class="field">
         <label>Passport number</label>
         <input id="passportNo" type="text" autocomplete="off" placeholder="e.g. PA1234567" />
@@ -249,6 +350,10 @@
         </div>
       </div>
 
+      <!-- ── HEALTH CARD ── -->
+      <div class="subhead">
+        <span>Health card</span>
+      </div>
       <div class="row2">
         <div class="field">
           <label>Health card issue</label>
@@ -260,50 +365,39 @@
         </div>
       </div>
 
-      <!-- ========== FILE UPLOADS - UPDATED WITH GRID ========== -->
-      <div class="file-grid">
-        <!-- Civil ID Front -->
-        <div class="field">
-          <label>Civil ID <strong>Front</strong></label>
-          <div class="drop" id="drop" role="button" tabindex="0">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
-            <b>Add photo or PDF</b>
-            <span>Front of Civil ID</span>
-          </div>
-          <input id="file" type="file" accept="image/*,application/pdf" class="visually-hidden" />
-        </div>
+      <!-- ── JOINING ── shown differently for overseas vs local hire -->
+      <div class="subhead">
+        <span>Joining details</span>
+      </div>
 
-        <!-- Civil ID Back - ADDED -->
+      <!-- OVERSEAS: entry stamp page + entry date + auto joining date -->
+      <div class="overseas-section" id="overseasSection">
         <div class="field">
-          <label>Civil ID <strong>Back</strong></label>
-          <div class="drop" id="dropBack" role="button" tabindex="0">
+          <label>Passport page with Kuwait entry stamp</label>
+          <div class="drop" id="dropEntry" role="button" tabindex="0">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
-            <b>Add photo or PDF</b>
-            <span>Back of Civil ID</span>
+            <b>Add a photo or PDF</b><span>The passport page showing the immigration entry stamp</span>
           </div>
-          <input id="fileBack" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+          <input id="fileEntry" type="file" accept="image/*,application/pdf" class="visually-hidden" />
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Entry date (immigration stamp)</label>
+            <input id="entryDate" type="date" />
+          </div>
+          <div class="field">
+            <label>Joining date <span style="color:var(--brass-2);font-weight:700">· auto</span></label>
+            <div class="readonly" id="joiningBox">—</div>
+          </div>
         </div>
       </div>
 
-      <!-- Passport Entry Page -->
-      <div class="field">
-        <label>Passport page with Kuwait entry stamp</label>
-        <div class="drop" id="dropEntry" role="button" tabindex="0">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
-          <b>Add a photo or PDF</b>
-          <span>The passport page showing the immigration entry stamp</span>
-        </div>
-        <input id="fileEntry" type="file" accept="image/*,application/pdf" class="visually-hidden" />
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label>Entry date (immigration stamp)</label>
-          <input id="entryDate" type="date" />
-        </div>
-        <div class="field">
-          <label>Joining date <span style="color:var(--brass-2);font-weight:700">· auto</span></label>
-          <div class="readonly" id="joiningBox">—</div>
+      <!-- LOCAL HIRE: just a joining date input, no entry stamp -->
+      <div class="overseas-section hidden" id="localSection">
+        <div class="field" id="f_localJoin">
+          <label>Joining date <span class="req">*</span></label>
+          <input id="localJoinDate" type="date" />
+          <div class="err">Please enter your joining date.</div>
         </div>
       </div>
 
@@ -311,7 +405,7 @@
         <button class="btn ghost" type="button" id="back3">Back</button>
         <button class="btn primary" type="button" id="toReview">Review</button>
       </div>
-      <!-- honeypot: hidden from people, catches bots -->
+      <!-- honeypot -->
       <input type="text" id="website" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
     </section>
 
@@ -333,7 +427,9 @@
     <!-- DONE -->
     <section class="step" id="stepDone">
       <div class="done">
-        <div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div class="tick">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
         <h1>Thank you</h1>
         <p class="lede">Your details have been sent to HR for review.</p>
         <div id="savedList" class="saved"></div>
@@ -346,259 +442,357 @@
 </main>
 
 <script>
-/* ============================================================
-   1) PASTE your deployed Apps Script Web App URL (ends with /exec)
-   2) PASTE the SAME secret you put in Code.gs CONFIG.SHARED_SECRET
-   ============================================================ */
 const API   = "https://script.google.com/macros/s/AKfycbyzgT2w2jEROuNLojgZQ2cX5xQcORDvstjXACmyeAHiGZu6cq0ql8hrUjseCA51mZxtWg/exec";
 const TOKEN = "xUcz5nAlRAXTX2clo9e3IXtg8VMk74yxfMoqrxhM";
 
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-/* ---------------- steps ---------------- */
-let step = 1, selected = null, fileData = null, fileBackData = null, entryData = null, joiningISO = "";  // ADDED: fileBackData
-function go(n){
+/* ── step navigation ── */
+let step = 1, selected = null;
+let fileData = null, fileBackData = null, entryData = null, joiningISO = "";
+
+function go(n) {
   step = n;
-  ["step1","step2","step3","step4"].forEach((id,i)=>$("#"+id).classList.toggle("active", i+1===n && n<=4));
+  ["step1","step2","step3","step4"].forEach((id,i) =>
+    $("#"+id).classList.toggle("active", i+1===n && n<=4));
   $("#stepDone").classList.toggle("active", n===5);
-  ["r1","r2","r3","r4"].forEach((id,i)=>{
-    const el=$("#"+id); el.className = (i+1<n)?"done":(i+1===n?"on":"");
+  ["r1","r2","r3","r4"].forEach((id,i) => {
+    const el = $("#"+id);
+    el.className = (i+1 < n) ? "done" : (i+1 === n ? "on" : "");
   });
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
-/* ---------------- load staff ---------------- */
+/* ── hire type toggle ── */
+function hireType() {
+  return $('input[name="hireType"]:checked').value; // "overseas" | "local"
+}
+function applyHireType() {
+  const local = hireType() === "local";
+  $("#overseasSection").classList.toggle("hidden", local);
+  $("#localSection").classList.toggle("hidden", !local);
+  // Clear the hidden side's values so they don't sneak into the payload
+  if (local) {
+    $("#entryDate").value = "";
+    updateJoining();
+  } else {
+    $("#localJoinDate").value = "";
+  }
+}
+$$('input[name="hireType"]').forEach(r => r.addEventListener("change", applyHireType));
+
+/* ── load staff ── */
 let STAFF = [];
-async function loadStaff(){
-  try{
-    const res = await fetch(API+"?action=list&token="+encodeURIComponent(TOKEN));
+async function loadStaff() {
+  try {
+    const res  = await fetch(API + "?action=list&token=" + encodeURIComponent(TOKEN));
     const data = await res.json();
-    if(!data.ok) throw new Error(data.error||"failed");
-    STAFF = data.staff||[];
+    if (!data.ok) throw new Error(data.error || "failed");
+    STAFF = data.staff || [];
     $("#loadBanner").classList.remove("show");
-    $("#q").disabled = false; $("#q").focus();
-  }catch(e){
+    $("#q").disabled = false;
+    $("#q").focus();
+  } catch(e) {
     $("#loadBanner").className = "banner bad show";
     $("#loadBanner").textContent = "Couldn't load the staff list. Refresh the page, or tell HR if it keeps happening.";
   }
 }
 
-function initials(s){ const p=String(s||"").trim().split(/\s+/); return ((p[0]||"")[0]||"?").toUpperCase()+((p[1]||"")[0]||"").toUpperCase(); }
-function esc(s){ return String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function initials(s) {
+  const p = String(s||"").trim().split(/\s+/);
+  return ((p[0]||"")[0]||"?").toUpperCase() + ((p[1]||"")[0]||"").toUpperCase();
+}
+function esc(s) {
+  return String(s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
 
-/* ---------------- search (English names) ---------------- */
+/* ── search ── */
 let tmr;
-$("#q").addEventListener("input", e=>{ clearTimeout(tmr); tmr=setTimeout(()=>renderResults(e.target.value.trim()),120); });
-function renderResults(qq){
-  const box=$("#results"); box.innerHTML="";
-  if(!qq){ return; }
-  const q=qq.toLowerCase();
-  const hits=STAFF.filter(s=> s.nameEn.toLowerCase().includes(q)).slice(0,8);
-  if(!hits.length){ box.innerHTML='<div class="res" style="cursor:default"><div class="nm"><b>No match. Try fewer letters.</b></div></div>'; return; }
-  hits.forEach(s=>{
-    const b=document.createElement("button"); b.type="button"; b.className="res"; b.setAttribute("role","option");
-    b.innerHTML='<span class="av">'+initials(s.nameEn)+'</span><span class="nm"><b>'+
+$("#q").addEventListener("input", e => { clearTimeout(tmr); tmr = setTimeout(() => renderResults(e.target.value.trim()), 120); });
+function renderResults(qq) {
+  const box = $("#results"); box.innerHTML = "";
+  if (!qq) return;
+  const q = qq.toLowerCase();
+  const hits = STAFF.filter(s => s.nameEn.toLowerCase().includes(q)).slice(0, 8);
+  if (!hits.length) {
+    box.innerHTML = '<div class="res" style="cursor:default"><div class="nm"><b>No match. Try fewer letters.</b></div></div>';
+    return;
+  }
+  hits.forEach(s => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "res"; b.setAttribute("role","option");
+    b.innerHTML = '<span class="av">'+initials(s.nameEn)+'</span><span class="nm"><b>'+
       esc(s.nameEn)+'</b><span>'+esc(s.designation||"")+'</span></span>';
-    b.onclick=()=>choose(s);
+    b.onclick = () => choose(s);
     box.appendChild(b);
   });
 }
 
-/* ---------------- confirm ---------------- */
-function choose(s){
-  selected=s;
-  $("#bAv").textContent=initials(s.nameEn);
-  $("#bName").textContent=s.nameEn||"—";
-  $("#bMeta").textContent=[s.designation, s.doj?("Joined "+s.doj):""].filter(Boolean).join("  ·  ");
+/* ── confirm ── */
+function choose(s) {
+  selected = s;
+  $("#bAv").textContent  = initials(s.nameEn);
+  $("#bName").textContent = s.nameEn || "—";
+  $("#bMeta").textContent = [s.designation, s.doj ? ("Joined "+s.doj) : ""].filter(Boolean).join("  ·  ");
   go(2);
 }
-$("#notme").onclick=()=>{ selected=null; $("#q").value=""; $("#results").innerHTML=""; go(1); $("#q").focus(); };
-$("#yesme").onclick=async()=>{ await prefill(); go(3); };
+$("#notme").onclick = () => { selected = null; $("#q").value = ""; $("#results").innerHTML = ""; go(1); $("#q").focus(); };
+$("#yesme").onclick = async () => { await prefill(); go(3); };
 
-/* ---------------- prefill ---------------- */
-async function prefill(){
-  ["cid","passportNo","cidExpiry","passportIssue","passportExpiry","healthIssue","healthExpiry"].forEach(id=>$("#"+id).value="");
-  try{
-    const res=await fetch(API+"?action=record&row="+selected.row+"&token="+encodeURIComponent(TOKEN));
-    const d=await res.json();
-    if(d.ok){
-      const set=(id,v)=>{ if(v) $("#"+id).value=v; };
+/* ── prefill ── */
+async function prefill() {
+  ["cid","passportNo","cidExpiry","passportIssue","passportExpiry","healthIssue","healthExpiry","email","mobile","whatsapp"].forEach(id => $("#"+id).value = "");
+  try {
+    const res = await fetch(API + "?action=record&row=" + selected.row + "&token=" + encodeURIComponent(TOKEN));
+    const d   = await res.json();
+    if (d.ok) {
+      const set = (id,v) => { if (v) $("#"+id).value = v; };
       set("cid",d.cid); set("cidExpiry",d.cidExpiry);
       set("passportNo",d.passportNo); set("passportIssue",d.passportIssue); set("passportExpiry",d.passportExpiry);
       set("healthIssue",d.healthIssue); set("healthExpiry",d.healthExpiry);
     }
-  }catch(e){/* prefill is a convenience; blank fields are fine */}
+  } catch(e) { /* prefill is a convenience; blank fields are fine */ }
+  // Reset hire type to overseas on each new prefill
+  $("#hireOverseas").checked = true;
+  applyHireType();
   refreshChips();
 }
 
-/* ---------------- expiry chips ---------------- */
-function statusOf(iso){
-  if(!iso) return null;
-  const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return null;
-  const days=Math.round((d-new Date().setHours(0,0,0,0))/864e5);
-  if(days<0) return {c:"bad",t:"Expired"};
-  if(days<=60) return {c:"warn",t:"Expiring soon"};
-  return {c:"ok",t:"Valid"};
+/* ── expiry chips ── */
+function statusOf(iso) {
+  if (!iso) return null;
+  const d = new Date(iso+"T00:00:00"); if (isNaN(d)) return null;
+  const days = Math.round((d - new Date().setHours(0,0,0,0)) / 864e5);
+  if (days < 0)   return {c:"bad",  t:"Expired"};
+  if (days <= 60) return {c:"warn", t:"Expiring soon"};
+  return {c:"ok", t:"Valid"};
 }
-function refreshChips(){
-  $$("[data-chip]").forEach(chip=>{
-    const st=statusOf($("#"+chip.getAttribute("data-chip")).value);
-    if(!st){ chip.hidden=true; return; }
-    chip.hidden=false; chip.className="chip "+st.c; chip.textContent=st.t;
+function refreshChips() {
+  $$("[data-chip]").forEach(chip => {
+    const st = statusOf($("#"+chip.getAttribute("data-chip")).value);
+    if (!st) { chip.hidden = true; return; }
+    chip.hidden = false; chip.className = "chip "+st.c; chip.textContent = st.t;
   });
 }
-["cidExpiry","passportExpiry","healthExpiry"].forEach(id=>$("#"+id).addEventListener("change",refreshChips));
+["cidExpiry","passportExpiry","healthExpiry"].forEach(id => $("#"+id).addEventListener("change", refreshChips));
 
-/* ---------------- upload + compress ---------------- */
-$("#drop").onclick=()=>$("#file").click();
-$("#drop").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#file").click();} };
-$("#file").onchange=async e=>{
-  const f=e.target.files[0]; if(!f) return;
-  if(f.size>10*1024*1024){ alert("That file is too large. Please use one under 10 MB."); e.target.value=""; return; }
-  const drop=$("#drop");
-  try{
-    let dataUrl, mime=f.type, name=f.name;
-    if(f.type.startsWith("image/")){ dataUrl=await compress(f); mime="image/jpeg"; name=(f.name.replace(/\.\w+$/,"")||"civil-id")+".jpg"; }
-    else{ dataUrl=await readData(f); }
-    fileData={ name, mimeType:mime, data:dataUrl.split(",")[1] };
-    const thumb = mime.startsWith("image/") ? '<img class="thumb" src="'+dataUrl+'" alt="">' : '<div class="thumb" style="display:grid;place-items:center;font-weight:700;color:var(--ink-soft)">PDF</div>';
-    drop.className="drop has";
-    drop.innerHTML=thumb+'<div class="fx"><b>'+esc(name)+'</b><span>'+Math.max(1,Math.round((fileData.data.length*3/4)/1024))+' KB · Attached</span></div><button type="button" class="clear" aria-label="Remove">×</button>';
-    drop.querySelector(".clear").onclick=ev=>{ ev.stopPropagation(); clearFile(); };
-  }catch(err){ alert("Couldn't read that file. Please try another."); }
-};
-function clearFile(){ fileData=null; $("#file").value=""; const d=$("#drop"); d.className="drop";
-  d.innerHTML='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add a photo or PDF</b><span>Front of the Civil ID · clear and readable</span>'; }
+/* ── mobile → whatsapp convenience copy ── */
+$("#mobile").addEventListener("blur", () => {
+  if (!$("#whatsapp").value.trim()) {
+    $("#whatsapp").value = $("#mobile").value.trim();
+  }
+});
 
-/* ========== CIVIL ID BACK - ADDED ========== */
-$("#dropBack").onclick=()=>$("#fileBack").click();
-$("#dropBack").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#fileBack").click();} };
-$("#fileBack").onchange=async e=>{
-  const f=e.target.files[0]; if(!f) return;
-  if(f.size>10*1024*1024){ alert("That file is too large. Please use one under 10 MB."); e.target.value=""; return; }
-  const drop=$("#dropBack");
-  try{
-    let dataUrl, mime=f.type, name=f.name;
-    if(f.type.startsWith("image/")){ dataUrl=await compress(f); mime="image/jpeg"; name=(f.name.replace(/\.\w+$/,"")||"civil-id-back")+".jpg"; }
-    else{ dataUrl=await readData(f); }
-    fileBackData={ name, mimeType:mime, data:dataUrl.split(",")[1] };
-    const thumb = mime.startsWith("image/") ? '<img class="thumb" src="'+dataUrl+'" alt="">' : '<div class="thumb" style="display:grid;place-items:center;font-weight:700;color:var(--ink-soft)">PDF</div>';
-    drop.className="drop has";
-    drop.innerHTML=thumb+'<div class="fx"><b>'+esc(name)+'</b><span>'+Math.max(1,Math.round((fileBackData.data.length*3/4)/1024))+' KB · Attached</span></div><button type="button" class="clear" aria-label="Remove">×</button>';
-    drop.querySelector(".clear").onclick=ev=>{ ev.stopPropagation(); clearFileBack(); };
-  }catch(err){ alert("Couldn't read that file. Please try another."); }
-};
-function clearFileBack(){ fileBackData=null; $("#fileBack").value=""; const d=$("#dropBack"); d.className="drop";
-  d.innerHTML='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add a photo or PDF</b><span>Back of Civil ID · clear and readable</span>'; }
-
-/* passport entry-stamp page */
-$("#dropEntry").onclick=()=>$("#fileEntry").click();
-$("#dropEntry").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#fileEntry").click();} };
-$("#fileEntry").onchange=async e=>{
-  const f=e.target.files[0]; if(!f) return;
-  if(f.size>10*1024*1024){ alert("That file is too large. Please use one under 10 MB."); e.target.value=""; return; }
-  const drop=$("#dropEntry");
-  try{
-    let dataUrl, mime=f.type, name=f.name;
-    if(f.type.startsWith("image/")){ dataUrl=await compress(f); mime="image/jpeg"; name=(f.name.replace(/\.\w+$/,"")||"passport-entry")+".jpg"; }
-    else{ dataUrl=await readData(f); }
-    entryData={ name, mimeType:mime, data:dataUrl.split(",")[1] };
-    const thumb = mime.startsWith("image/") ? '<img class="thumb" src="'+dataUrl+'" alt="">' : '<div class="thumb" style="display:grid;place-items:center;font-weight:700;color:var(--ink-soft)">PDF</div>';
-    drop.className="drop has";
-    drop.innerHTML=thumb+'<div class="fx"><b>'+esc(name)+'</b><span>'+Math.max(1,Math.round((entryData.data.length*3/4)/1024))+' KB · Attached</span></div><button type="button" class="clear" aria-label="Remove">×</button>';
-    drop.querySelector(".clear").onclick=ev=>{ ev.stopPropagation(); clearEntry(); };
-  }catch(err){ alert("Couldn't read that file. Please try another."); }
-};
-function clearEntry(){ entryData=null; $("#fileEntry").value=""; const d=$("#dropEntry"); d.className="drop";
-  d.innerHTML='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add a photo or PDF</b><span>The passport page showing the immigration entry stamp</span>'; }
-
-/* joining date = entry date + 21 days (3 weeks) */
-function addDays(iso,n){ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return ""; d.setDate(d.getDate()+n);
-  const p=x=>String(x).padStart(2,"0"); return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()); }
-function updateJoining(){ const e=$("#entryDate").value; joiningISO=e?addDays(e,21):""; const box=$("#joiningBox");
-  if(joiningISO){ box.textContent=isoToDMY(joiningISO); box.classList.add("set"); }
-  else{ box.textContent="—"; box.classList.remove("set"); } }
-$("#entryDate").addEventListener("change",updateJoining);
-
-function readData(f){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }
-function compress(f){ return new Promise((res,rej)=>{ const r=new FileReader();
-  r.onload=()=>{ const img=new Image(); img.onload=()=>{ const max=1600; let w=img.width,h=img.height;
-    if(w>max||h>max){ const k=Math.min(max/w,max/h); w=Math.round(w*k); h=Math.round(h*k); }
-    const cv=document.createElement("canvas"); cv.width=w; cv.height=h; cv.getContext("2d").drawImage(img,0,0,w,h);
-    res(cv.toDataURL("image/jpeg",0.82)); }; img.onerror=rej; img.src=r.result; };
-  r.onerror=rej; r.readAsDataURL(f); }); }
-
-/* ---------------- validate + navigate ---------------- */
-$("#cid").addEventListener("input",e=>{ e.target.value=e.target.value.replace(/\D/g,"").slice(0,12); $("#f_cid").classList.remove("invalid"); });
-$("#passportNo").addEventListener("input",e=>{ e.target.value=e.target.value.toUpperCase().replace(/\s+/g,""); });
-$("#back3").onclick=()=>go(2);
-$("#back4").onclick=()=>go(3);
-function docError(msg){ const b=$("#docErr"); if(!msg){ b.classList.remove("show"); return; } b.textContent=msg; b.classList.add("show"); window.scrollTo({top:0,behavior:"smooth"}); }
-function endsBeforeStart(start,end){ return start && end && start>end; } // ISO yyyy-mm-dd compares lexically
-$("#toReview").onclick=()=>{
-  docError("");
-  if(!/^\d{12}$/.test($("#cid").value)){ $("#f_cid").classList.add("invalid"); $("#cid").focus(); return; }
-  if(endsBeforeStart(val("passportIssue"),val("passportExpiry"))){ docError("Passport expiry can't be before its issue date. Please check the dates."); return; }
-  if(endsBeforeStart(val("healthIssue"),val("healthExpiry"))){ docError("Health card expiry can't be before its issue date. Please check the dates."); return; }
-  renderReview(); go(4);
-};
-function val(id){ return $("#"+id).value.trim(); }
-function isoToDMY(s){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s); return m?(m[3]+"-"+m[2]+"-"+m[1]):s; } // dd-mm-yyyy
-const DATE_IDS={cidExpiry:1,passportIssue:1,passportExpiry:1,healthIssue:1,healthExpiry:1};
-const REVIEW_ROWS=[["cid","Civil ID number"],["cidExpiry","Civil ID expiry"],["passportNo","Passport number"],
-  ["passportIssue","Passport issue date"],["passportExpiry","Passport expiry"],
-  ["healthIssue","Health card issue"],["healthExpiry","Health card expiry"]];
-function renderReview(){
-  const box=$("#review"); box.innerHTML="";
-  REVIEW_ROWS.forEach(([id,label])=>{
-    const v=val(id), disp=(DATE_IDS[id]&&v)?isoToDMY(v):v;
-    box.insertAdjacentHTML("beforeend",'<div class="r"><span>'+label+'</span><b class="'+(v?"":"empty")+'">'+(v?esc(disp):"Not provided")+'</b></div>');
+/* ── file upload helpers ── */
+function readData(f) {
+  return new Promise((res,rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f); });
+}
+function compress(f) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const img = new Image(); img.onload = () => {
+        const max = 1600; let w = img.width, h = img.height;
+        if (w > max || h > max) { const k = Math.min(max/w, max/h); w = Math.round(w*k); h = Math.round(h*k); }
+        const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+        cv.getContext("2d").drawImage(img, 0, 0, w, h);
+        res(cv.toDataURL("image/jpeg", 0.82));
+      }; img.onerror = rej; img.src = r.result;
+    }; r.onerror = rej; r.readAsDataURL(f);
   });
-  box.insertAdjacentHTML("beforeend",'<div class="r"><span>Civil ID Front copy</span><b class="'+(fileData?"":"empty")+'">'+(fileData?"Attached":"Not provided")+'</b></div>');
-  // ADDED: Civil ID Back review row
-  box.insertAdjacentHTML("beforeend",'<div class="r"><span>Civil ID Back copy</span><b class="'+(fileBackData?"":"empty")+'">'+(fileBackData?"Attached":"Not provided")+'</b></div>');
-  box.insertAdjacentHTML("beforeend",'<div class="r"><span>Passport entry page</span><b class="'+(entryData?"":"empty")+'">'+(entryData?"Attached":"Not provided")+'</b></div>');
-  if(val("entryDate")){
-    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Entry date</span><b>'+isoToDMY(val("entryDate"))+'</b></div>');
-    box.insertAdjacentHTML("beforeend",'<div class="r"><span>Joining date (auto)</span><b class="'+(joiningISO?"":"empty")+'">'+(joiningISO?isoToDMY(joiningISO):"—")+'</b></div>');
+}
+
+function makeDropHandler(dropId, fileInputId, labelText, onAttach, onClear) {
+  const drop  = $("#"+dropId);
+  const input = $("#"+fileInputId);
+  const UPLOAD_SVG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>';
+
+  drop.onclick   = () => input.click();
+  drop.onkeydown = e => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); input.click(); } };
+
+  input.onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    if (f.size > 10*1024*1024) { alert("That file is too large. Please use one under 10 MB."); e.target.value=""; return; }
+    try {
+      let dataUrl, mime = f.type, name = f.name;
+      if (f.type.startsWith("image/")) { dataUrl = await compress(f); mime = "image/jpeg"; name = (f.name.replace(/\.\w+$/,"")||"file")+".jpg"; }
+      else { dataUrl = await readData(f); }
+      const fd = { name, mimeType:mime, data:dataUrl.split(",")[1] };
+      onAttach(fd);
+      const thumb = mime.startsWith("image/")
+        ? '<img class="thumb" src="'+dataUrl+'" alt="">'
+        : '<div class="thumb" style="display:grid;place-items:center;font-weight:700;color:var(--ink-soft)">PDF</div>';
+      drop.className = "drop has";
+      drop.innerHTML = thumb+'<div class="fx"><b>'+esc(name)+'</b><span>'+Math.max(1,Math.round((fd.data.length*3/4)/1024))+' KB · Attached</span></div><button type="button" class="clear" aria-label="Remove">×</button>';
+      drop.querySelector(".clear").onclick = ev => { ev.stopPropagation(); onClear(); resetDrop(); };
+    } catch(err) { alert("Couldn't read that file. Please try another."); }
+  };
+
+  function resetDrop() {
+    input.value = "";
+    drop.className = "drop";
+    drop.innerHTML = UPLOAD_SVG + '<b>Add photo or PDF</b><span>'+labelText+'</span>';
   }
 }
 
-/* ---------------- submit ---------------- */
-$("#submit").onclick=async()=>{
-  const btn=$("#submit"); $("#subErr").classList.remove("show");
-  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Sending…';
-  const payload={ token:TOKEN, row:selected.row, expectedName:selected.nameEn, expectedDesignation:selected.designation, website:val("website"),
-    cid:val("cid"), cidExpiry:val("cidExpiry"), passportNo:val("passportNo"),
-    passportIssue:val("passportIssue"), passportExpiry:val("passportExpiry"),
-    healthIssue:val("healthIssue"), healthExpiry:val("healthExpiry"), 
-    file:fileData, fileBack:fileBackData,  // ADDED: fileBackData
-    entryDate:val("entryDate"), joiningDate:joiningISO, entryFile:entryData };
-  try{
-    const res=await fetch(API,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
-    const data=await res.json();
-    if(!data.ok) throw new Error(data.error||"failed");
-    showSaved(data.fields||[]);
-    go(5);
-  }catch(e){
-    $("#subErr").textContent=("Something went wrong sending your details. Please try again. "+(e.message||"")).trim();
-    $("#subErr").classList.add("show");
-  }finally{ btn.disabled=false; btn.textContent="Submit"; }
-};
-function showSaved(fields){
-  const box=$("#savedList");
-  box.innerHTML = fields.length
-    ? '<div class="savedwrap">'+fields.map(f=>'<span class="chip ok">'+esc(f)+'</span>').join("")+'</div>'
-    : '';
+/* wire up the three drop zones */
+makeDropHandler("drop",      "file",      "Front of Civil ID",                              fd => fileData     = fd, () => fileData     = null);
+makeDropHandler("dropBack",  "fileBack",  "Back of Civil ID",                               fd => fileBackData = fd, () => fileBackData = null);
+makeDropHandler("dropEntry", "fileEntry", "The passport page showing the immigration entry stamp", fd => entryData    = fd, () => entryData    = null);
+
+/* ── joining date (overseas) ── */
+function addDays(iso, n) {
+  const d = new Date(iso+"T00:00:00"); if (isNaN(d)) return "";
+  d.setDate(d.getDate() + n);
+  const p = x => String(x).padStart(2,"0");
+  return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
 }
-$("#again").onclick=()=>{
-  selected=null; clearFile(); clearFileBack(); clearEntry(); joiningISO=""; updateJoining();  // ADDED: clearFileBack()
-  ["q","cid","passportNo","cidExpiry","passportIssue","passportExpiry","healthIssue","healthExpiry","entryDate","website"].forEach(id=>$("#"+id).value="");
-  $("#results").innerHTML=""; refreshChips(); go(1);
+function updateJoining() {
+  const e = $("#entryDate").value;
+  joiningISO = e ? addDays(e, 21) : "";
+  const box  = $("#joiningBox");
+  if (joiningISO) { box.textContent = isoToDMY(joiningISO); box.classList.add("set"); }
+  else            { box.textContent = "—"; box.classList.remove("set"); }
+}
+$("#entryDate").addEventListener("change", updateJoining);
+
+/* ── validate + navigate ── */
+$("#cid").addEventListener("input", e => {
+  e.target.value = e.target.value.replace(/\D/g,"").slice(0,12);
+  $("#f_cid").classList.remove("invalid");
+});
+$("#passportNo").addEventListener("input", e => { e.target.value = e.target.value.toUpperCase().replace(/\s+/g,""); });
+$("#back3").onclick = () => go(2);
+$("#back4").onclick = () => go(3);
+
+function docError(msg) {
+  const b = $("#docErr");
+  if (!msg) { b.classList.remove("show"); return; }
+  b.textContent = msg; b.classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function endsBeforeStart(s, e) { return s && e && s > e; }
+function val(id) { return $("#"+id).value.trim(); }
+function isoToDMY(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s); return m ? (m[3]+"-"+m[2]+"-"+m[1]) : s; }
+
+$("#toReview").onclick = () => {
+  docError("");
+  if (!/^\d{12}$/.test(val("cid"))) { $("#f_cid").classList.add("invalid"); $("#cid").focus(); return; }
+  if (hireType() === "local" && !val("localJoinDate")) { $("#f_localJoin").classList.add("invalid"); $("#localJoinDate").focus(); return; }
+  if (endsBeforeStart(val("passportIssue"), val("passportExpiry"))) { docError("Passport expiry can't be before its issue date. Please check the dates."); return; }
+  if (endsBeforeStart(val("healthIssue"),   val("healthExpiry")))   { docError("Health card expiry can't be before its issue date. Please check the dates."); return; }
+  $("#f_localJoin").classList.remove("invalid");
+  renderReview(); go(4);
 };
 
-/* ---------------- boot ---------------- */
+const DATE_IDS = {cidExpiry:1, passportIssue:1, passportExpiry:1, healthIssue:1, healthExpiry:1};
+function renderReview() {
+  const box = $("#review"); box.innerHTML = "";
+  const addRow = (label, value) => {
+    box.insertAdjacentHTML("beforeend",
+      '<div class="r"><span>'+esc(label)+'</span><b class="'+(value?"":"empty")+'">'+(value?esc(value):"Not provided")+'</b></div>');
+  };
+
+  // Hire type
+  addRow("How you joined", hireType() === "local" ? "Local hire (already in Kuwait)" : "Hired from overseas");
+
+  // Contact
+  addRow("Email",    val("email"));
+  addRow("Mobile",   val("mobile"));
+  addRow("WhatsApp", val("whatsapp"));
+
+  // Civil ID
+  addRow("Civil ID number", val("cid"));
+  addRow("Civil ID expiry", val("cidExpiry") ? isoToDMY(val("cidExpiry")) : "");
+  addRow("Civil ID Front copy", fileData     ? "Attached" : "");
+  addRow("Civil ID Back copy",  fileBackData ? "Attached" : "");
+
+  // Passport
+  addRow("Passport number",    val("passportNo"));
+  addRow("Passport issue date", val("passportIssue") ? isoToDMY(val("passportIssue")) : "");
+  addRow("Passport expiry",    val("passportExpiry") ? isoToDMY(val("passportExpiry")) : "");
+
+  // Health
+  addRow("Health card issue",  val("healthIssue")  ? isoToDMY(val("healthIssue"))  : "");
+  addRow("Health card expiry", val("healthExpiry") ? isoToDMY(val("healthExpiry")) : "");
+
+  // Joining
+  if (hireType() === "overseas") {
+    addRow("Passport entry stamp page", entryData ? "Attached" : "");
+    addRow("Entry date",   val("entryDate")  ? isoToDMY(val("entryDate")) : "");
+    addRow("Joining date (auto)", joiningISO ? isoToDMY(joiningISO) : "");
+  } else {
+    addRow("Joining date", val("localJoinDate") ? isoToDMY(val("localJoinDate")) : "");
+  }
+}
+
+/* ── submit ── */
+$("#submit").onclick = async () => {
+  const btn = $("#submit");
+  $("#subErr").classList.remove("show");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Sending…';
+
+  const ht        = hireType();
+  const isLocal   = ht === "local";
+  const joinDate  = isLocal ? val("localJoinDate") : joiningISO;
+
+  const payload = {
+    token: TOKEN, row: selected.row,
+    expectedName: selected.nameEn, expectedDesignation: selected.designation,
+    website: val("website"),
+    hireType: ht,
+    email:    val("email"),
+    mobile:   val("mobile"),
+    whatsapp: val("whatsapp"),
+    cid:      val("cid"), cidExpiry: val("cidExpiry"),
+    passportNo:     val("passportNo"),
+    passportIssue:  val("passportIssue"),
+    passportExpiry: val("passportExpiry"),
+    healthIssue:    val("healthIssue"),
+    healthExpiry:   val("healthExpiry"),
+    file:      fileData,
+    fileBack:  fileBackData,
+    entryDate: isLocal ? "" : val("entryDate"),
+    joiningDate: joinDate,
+    entryFile: isLocal ? null : entryData
+  };
+
+  try {
+    const res  = await fetch(API, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "failed");
+    go(5);
+  } catch(e) {
+    $("#subErr").textContent = ("Something went wrong sending your details. Please try again. " + (e.message||"")).trim();
+    $("#subErr").classList.add("show");
+  } finally {
+    btn.disabled = false; btn.textContent = "Submit";
+  }
+};
+
+/* ── reset for "submit another" ── */
+$("#again").onclick = () => {
+  selected = null;
+  fileData = null; fileBackData = null; entryData = null; joiningISO = "";
+  // Reset all drop zones
+  ["drop","dropBack","dropEntry"].forEach(id => {
+    const d = $("#"+id); d.className = "drop";
+    const labels = {drop:"Front of Civil ID", dropBack:"Back of Civil ID", dropEntry:"The passport page showing the immigration entry stamp"};
+    d.innerHTML = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg><b>Add photo or PDF</b><span>'+labels[id]+'</span>';
+  });
+  ["file","fileBack","fileEntry"].forEach(id => $("#"+id).value = "");
+  ["q","cid","passportNo","cidExpiry","passportIssue","passportExpiry",
+   "healthIssue","healthExpiry","entryDate","localJoinDate","email","mobile","whatsapp","website"].forEach(id => $("#"+id).value = "");
+  updateJoining();
+  refreshChips();
+  $("#results").innerHTML = "";
+  $("#hireOverseas").checked = true;
+  applyHireType();
+  go(1);
+};
+
+/* ── boot ── */
 loadStaff();
 </script>
 </body>
