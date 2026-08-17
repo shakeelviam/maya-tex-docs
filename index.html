@@ -405,8 +405,8 @@
         <button class="btn ghost" type="button" id="back3">Back</button>
         <button class="btn primary" type="button" id="toReview">Review</button>
       </div>
-      <!-- honeypot -->
-      <input type="text" id="website" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <!-- honeypot: obscure name so browser autofill ignores it -->
+      <input type="text" id="hp_field" name="hp_field" class="visually-hidden" tabindex="-1" autocomplete="nope" aria-hidden="true" />
     </section>
 
     <!-- STEP 4 · REVIEW -->
@@ -740,7 +740,7 @@ $("#submit").onclick = async () => {
   const payload = {
     token: TOKEN, row: selected.row,
     expectedName: selected.nameEn, expectedDesignation: selected.designation,
-    website: val("website"),
+    website: val("hp_field"),
     hireType: ht,
     email:    val("email"),
     mobile:   val("mobile"),
@@ -783,7 +783,7 @@ $("#again").onclick = () => {
   });
   ["file","fileBack","fileEntry"].forEach(id => $("#"+id).value = "");
   ["q","cid","passportNo","cidExpiry","passportIssue","passportExpiry",
-   "healthIssue","healthExpiry","entryDate","localJoinDate","email","mobile","whatsapp","website"].forEach(id => $("#"+id).value = "");
+   "healthIssue","healthExpiry","entryDate","localJoinDate","email","mobile","whatsapp","hp_field"].forEach(id => $("#"+id).value = "");
   updateJoining();
   refreshChips();
   $("#results").innerHTML = "";
