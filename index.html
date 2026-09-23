@@ -492,11 +492,31 @@ async function loadStaff() {
     STAFF = data.staff || [];
     $("#loadBanner").classList.remove("show");
     $("#q").disabled = false;
-    $("#q").focus();
+    if (!autoPickFromLink()) $("#q").focus();
   } catch(e) {
     $("#loadBanner").className = "banner bad show";
     $("#loadBanner").textContent = "Couldn't load the staff list. Refresh the page, or tell HR if it keeps happening.";
   }
+}
+
+/* ── opened from the kiosk or a reminder: ?name=Aaitu%20Newar ──
+   The link carries the person's name (and Employee ID, for later), so
+   the form opens on their own confirmation screen instead of asking a
+   tired man at the end of a shift to find himself in a list. An exact
+   name wins; otherwise a single partial match wins; anything else just
+   fills the search box and shows the matches, so a wrong link can never
+   pick the wrong person. */
+function autoPickFromLink() {
+  let p;
+  try { p = new URLSearchParams(location.search); } catch (e) { return false; }
+  const raw = (p.get("name") || "").trim();
+  if (!raw || !STAFF.length) return false;
+  const want = raw.toLowerCase();
+  let hits = STAFF.filter(s => String(s.nameEn || "").trim().toLowerCase() === want);
+  if (hits.length !== 1) hits = STAFF.filter(s => String(s.nameEn || "").toLowerCase().includes(want));
+  if (hits.length === 1) { $("#q").value = hits[0].nameEn; choose(hits[0]); return true; }
+  $("#q").value = raw; renderResults(raw); $("#q").focus();
+  return true;
 }
 
 function initials(s) {
