@@ -251,6 +251,10 @@
       <h1 id="s3h">Your documents</h1>
       <p class="lede">Fill what you can. Existing details are shown — correct anything that's wrong.</p>
 
+      <!-- Filled in when the form is opened from the kiosk: what HR Maya
+           holds for this man right now, and which papers have run out. -->
+      <div id="myDocs"></div>
+
       <div class="banner bad" id="docErr"></div>
 
       <!-- ── HIRE TYPE TOGGLE ── -->
@@ -441,6 +445,20 @@
   <p class="foot">Maya Tex Restaurants Company · For staff use only. Your details go straight to HR.</p>
 </main>
 
+<style>
+#myDocs{margin:0 0 18px}
+#myDocs .mdhead{font-size:13px;color:#667085;margin-bottom:8px}
+#myDocs .mdrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:10px 12px;border:1px solid #e4e7ec;border-radius:10px;margin-bottom:6px;background:#fff}
+#myDocs .mdname{font-weight:600}
+#myDocs .mddate{font-size:13px;color:#667085}
+#myDocs .pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+#myDocs .pill.expired{background:#fee4e2;color:#b42318}
+#myDocs .pill.soon{background:#fef0c7;color:#b54708}
+#myDocs .pill.ok{background:#d1fadf;color:#027a48}
+#myDocs .pill.missing{background:#eaecf0;color:#475467}
+#myDocs .mdask{margin-top:10px;font-size:14px;color:#b42318;font-weight:600}
+</style>
 <script>
 const API   = "https://script.google.com/macros/s/AKfycbyzgT2w2jEROuNLojgZQ2cX5xQcORDvstjXACmyeAHiGZu6cq0ql8hrUjseCA51mZxtWg/exec";
 const TOKEN = "xUcz5nAlRAXTX2clo9e3IXtg8VMk74yxfMoqrxhM";
@@ -492,11 +510,86 @@ async function loadStaff() {
     STAFF = data.staff || [];
     $("#loadBanner").classList.remove("show");
     $("#q").disabled = false;
-    if (!autoPickFromLink()) $("#q").focus();
+    if (!(await autoPickFromKiosk()) && !autoPickFromLink()) $("#q").focus();
   } catch(e) {
     $("#loadBanner").className = "banner bad show";
     $("#loadBanner").textContent = "Couldn't load the staff list. Refresh the page, or tell HR if it keeps happening.";
   }
+}
+
+/* ── opened from the kiosk: ?id=MT-00012&t=<signed> ──────────────────
+   The man signed in on the kiosk tablet with his Employee ID and PIN, so
+   he has already proved who he is. HR Maya signs a half-hour link, and
+   with it this form can skip BOTH the "find yourself in a list" step and
+   the "is this you?" step, and open straight on his own documents with
+   the expired ones called out.
+
+   The signature is the whole point: without it anyone could read a man's
+   document dates by guessing MT-000xx in the address bar. If it is
+   missing, stale, or HR Maya cannot be reached, nothing here happens and
+   the ordinary name search takes over. */
+const HRMAYA_API = "https://script.google.com/macros/s/AKfycbyG5XLC79FnyLtSGGWunhJwU83SV0b0kz3y1FKdal-JBcTUM-X0ax134konYyTaKxYiiQ/exec";
+
+async function autoPickFromKiosk() {
+  let p;
+  try { p = new URLSearchParams(location.search); } catch (e) { return false; }
+  const id = (p.get("id") || "").trim();
+  const t  = (p.get("t")  || "").trim();
+  if (!id || !t || !STAFF.length) return false;
+
+  let d;
+  try {
+    const res = await fetch(HRMAYA_API + "?method=getMyDocuments&empId=" +
+      encodeURIComponent(id) + "&t=" + encodeURIComponent(t) + "&_=" + Date.now());
+    d = await res.json();
+  } catch (e) { return false; }
+
+  // A stale or refused token is not worth alarming him about: the ordinary
+  // ?name= link still puts him on his own confirmation screen, and he can
+  // update his papers from there exactly as before. He simply does not get
+  // the status panel. A warning here would contradict the screen he is
+  // looking at.
+  if (!d || !d.success) return false;
+
+  // HR Maya gives the exact name; this form still submits against its own
+  // staff list, so match on that exact name rather than anything typed.
+  const want = String(d.name || "").trim().toLowerCase();
+  const hit = STAFF.filter(s => String(s.nameEn || "").trim().toLowerCase() === want);
+  if (hit.length !== 1) return false;   // names disagree — do not guess
+
+  renderMyDocs(d);
+  choose(hit[0]);                       // fills the confirmation card
+  // prefill() is what pulls his existing Civil ID, passport and dates into
+  // the form. Skipping straight to step 3 without it would show him an
+  // empty form and invite him to submit blanks over good data — which is
+  // exactly what "Yes, that's me" does before it moves on.
+  await prefill();
+  go(3);
+  return true;
+}
+
+function renderMyDocs(d) {
+  const box = $("#myDocs");
+  if (!box) return;
+  const label = {
+    expired: "EXPIRED", soon: "EXPIRES SOON", ok: "VALID", missing: "NOT ON FILE"
+  };
+  const rows = (d.documents || []).map(x =>
+    '<div class="mdrow"><div><div class="mdname">' + esc(x.doc) + '</div>' +
+    '<div class="mddate">' + (x.date ? esc(x.date) : "no date on file") +
+    (x.status === "expired" && x.days != null ? " \u00B7 " + (-x.days) + " day(s) ago" : "") +
+    (x.status === "soon" && x.days != null ? " \u00B7 in " + x.days + " day(s)" : "") +
+    '</div></div>' +
+    '<span class="pill ' + x.status + '">' + label[x.status] + '</span></div>').join("");
+
+  const need = d.needsAttention || [];
+  box.innerHTML =
+    '<div class="mdhead">What HR has for you, ' + esc(d.name) + ' (' + esc(d.empId) + ')</div>' +
+    rows +
+    (need.length
+      ? '<div class="mdask">Please update your ' + need.map(esc).join(" and ") +
+        ' below, and upload a photo of the new one.</div>'
+      : '');
 }
 
 /* ── opened from the kiosk or a reminder: ?name=Aaitu%20Newar ──
